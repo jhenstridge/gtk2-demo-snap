@@ -1,0 +1,61 @@
+name: gtk2-demo
+version: '0.1'
+summary: A demonstration of application features for GTK
+description: |
+  This snap contains the gtk-demo application, using theme data
+  provided by an external snap.
+grade: devel
+confinement: strict
+
+plugs:
+  gtk-2-engines:
+    interface: content
+    target: $SNAP/lib/gtk-2.0
+    default-provider: gtk2-common-themes:gtk-2-engines
+  gtk-2-themes:
+    interface: content
+    target: $SNAP/share/themes
+    default-provider: gtk2-common-themes:gtk-2-themes
+  icon-themes:
+    interface: content
+    target: $SNAP/share/icons
+    default-provider: gtk-common-themes:icon-themes
+
+environment:
+  GTK_PATH: $SNAP/lib/gtk-2.0
+  GTK_DATA_PREFIX: $SNAP
+  XDG_DATA_DIRS: $SNAP/share:$XDG_DATA_DIRS
+
+apps:
+  gtk2-demo:
+    command: bin/desktop-launch $SNAP/bin/gtk-demo.sh
+    plugs:
+      - desktop
+      - desktop-legacy
+      - x11
+
+parts:
+  gtk-demo:
+    after:
+      - desktop-gtk2
+    plugin: nil
+    stage-packages:
+      - gtk2.0-examples
+  extra:
+    plugin: dump
+    override-build: |
+      set -ex
+      snapcraftctl build
+      mkdir -p $SNAPCRAFT_PART_INSTALL/lib/gtk-2.0
+      mkdir -p $SNAPCRAFT_PART_INSTALL/share/themes
+      mkdir -p $SNAPCRAFT_PART_INSTALL/share/icons
+    stage:
+      - bin/gtk-demo.sh
+      - lib/gtk-2.0
+      - share/themes
+      - share/icons
+
+  # Waiting on https://github.com/ubuntu/snapcraft-desktop-helpers/pull/159
+  desktop-gtk2:
+    source: https://github.com/jhenstridge/snapcraft-desktop-helpers.git
+    source-branch: preserve-gtk-path
