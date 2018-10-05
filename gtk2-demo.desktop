@@ -1,0 +1,6 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=gtk2-demo
+Exec=gtk2-demo
+NoDisplay=true

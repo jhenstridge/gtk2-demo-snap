@@ -1,5 +1,5 @@
 name: gtk2-demo
-version: '0.1'
+version: '2.24.30'
 summary: A demonstration of application features for GTK
 description: |
   This snap contains the gtk-demo application, using theme data
@@ -29,6 +29,7 @@ environment:
 apps:
   gtk2-demo:
     command: bin/desktop-launch $SNAP/bin/gtk-demo.sh
+    desktop: gtk2-demo.desktop
     plugs:
       - desktop
       - desktop-legacy
@@ -51,6 +52,7 @@ parts:
       mkdir -p $SNAPCRAFT_PART_INSTALL/share/icons
     stage:
       - bin/gtk-demo.sh
+      - gtk2-demo.desktop
       - lib/gtk-2.0
       - share/themes
       - share/icons
