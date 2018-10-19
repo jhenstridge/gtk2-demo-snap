@@ -15,7 +15,7 @@ plugs:
   gtk-2-themes:
     interface: content
     target: $SNAP/share/themes
-    default-provider: gtk2-common-themes:gtk-2-themes
+    default-provider: gtk-common-themes:gtk-2-themes
   icon-themes:
     interface: content
     target: $SNAP/share/icons
@@ -56,8 +56,3 @@ parts:
       - lib/gtk-2.0
       - share/themes
       - share/icons
-
-  # Waiting on https://github.com/ubuntu/snapcraft-desktop-helpers/pull/159
-  desktop-gtk2:
-    source: https://github.com/jhenstridge/snapcraft-desktop-helpers.git
-    source-branch: preserve-gtk-path
